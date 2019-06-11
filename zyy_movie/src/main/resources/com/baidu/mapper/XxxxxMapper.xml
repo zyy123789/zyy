@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 对应的是接口的全名 -->
+<mapper namespace="com.baidu.mapper.MovieMapperDao">
+
+	<select id="getList" parameterType="map" resultType="map">
+		select m.*,s.sta from 0611_movie m LEFT JOIN 0611_status s on m.sid=s.sid
+		<where>
+			<if test="mname!=null and mname!=''">
+				and m.mname like concat('%',#{mname},'%')
+			</if>
+			<if test="t1!=null and t1!=''">
+				and m.mtime >= #{t1}
+			</if>
+			<if test="t2!=null and t2!=''">
+				and m.mtime &lt;= #{t2}
+			</if>
+			<if test="p1!=null and p1!=''">
+				and m.price >= #{p1}
+			</if>
+			<if test="p2!=null and p2!=''">
+				and m.price &lt;= #{p2}
+			</if>
+			<if test="name!=null and name!=''">
+				and m.name like concat('%',#{name},'%')
+			</if>
+			<if test="year!=null and year!=''">
+				and m.year = #{year}
+			</if>
+		</where>
+		ORDER BY m.mtime asc,longtime asc,year asc
+	</select>
+	
+	<delete id="delete" parameterType="string">
+		delete from 0611_movie where mid in (${value})
+	</delete>
+	
+	<update id="updatesid" parameterType="int">
+		update 0611_movie set sid=2 where mid=#{mid}
+	</update>
+	
+	<update id="updateSid" parameterType="int">
+		update 0611_movie set sid=1 where mid=#{mid}
+	</update>
+
+</mapper>
