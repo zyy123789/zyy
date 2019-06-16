@@ -9,14 +9,53 @@
 <link href="css/index3.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script type="text/javascript">
+$(function(){
+	$("form").hide();
+})
+function sel(){
+	$("form").show();
+}
 function page(cpage){
 	$("[name='cpage']").val(cpage);
+	
+ 	var o1 = '${map.o1}';
+	$("[nameo1='o1']").val(o1);
+	
+ 	var o2 = '${map.o2}';
+	$("[nameo1='o2']").val(o2);
+	
+ 	var o3 = '${map.o3}';
+	$("[nameo1='o3']").val(o3);
+	
 	$("form").submit();
 }
-/* function o(){
-	$("[name='oo']").val("asc");
+ function o1(){
+	var o1 = '${map.o1}';
+	if (o1 == "desc") {
+		$("[name='o1']").val("asc");
+	} else {
+		$("[name='o1']").val("desc");
+	}
 	$("form").submit();
-} */
+} 
+ function o2(){
+	var o2 = '${map.o2}';
+	if (o2 == "desc") {
+		$("[name='o2']").val("asc");
+	} else {
+		$("[name='o2']").val("desc");
+	}
+	$("form").submit();
+} 
+ function o3(){
+	var o3 = '${map.o3}';
+	if (o3 == "desc") {
+		$("[name='o3']").val("asc");
+	} else {
+		$("[name='o3']").val("desc");
+	}
+	$("form").submit();
+} 
 function qx(){
 	$("[name='mids']").attr("checked",$(":checkbox:first").prop("checked"));
 }
@@ -45,14 +84,18 @@ function plsc(){
 <body>
 <form action="list.do" method="post">
 	<input type="hidden" name="cpage">
-	<%-- <input type="hidden" name="oo" value="${map.oo }"> --%>
+	<input type="hidden" name="o1">
+	<input type="hidden" name="o2">
+	<input type="hidden" name="o3">
 	影片名:<input type="text" name="mname" value="${map.mname }">
-	导演:<input type="text" name="name" value="${map.name }"><br>
+	导演:<input type="text" name="name" value="${map.name }">
 	年代:<input type="text" name="year" value="${map.year }"><br>
-	上映时间:<input type="text" name="t1" value="${map.t1 }">--<input type="text" name="t2" value="${map.t2 }"><br>
-	价格:<input type="text" name="p1" value="${map.p1 }">--<input type="text" name="p2" value="${map.p2 }"><br>
+	上映时间:<input type="text" name="t1" value="${map.t1 }">--<input type="text" name="t2" value="${map.t2 }">
+	价格:<input type="text" name="p1" value="${map.p1 }">--<input type="text" name="p2" value="${map.p2 }">
 	<input type="submit" value="查询 ">
 </form>
+<input type="button" value="查询影片" onclick="sel()">
+<input type="button" value="添加影片" onclick="add()">
 <input type="button" value="批量删除" onclick="plsc()">
 <table>
 	<tr>
@@ -60,13 +103,14 @@ function plsc(){
 			<input type="checkbox" onclick="qx()">全选/全不选
 			<input type="checkbox" onclick="fx()">反选
 		</td>
+		<td>影片id</td>
 		<td>影片名</td>
 		<td>导演</td>
 		<td>票价</td>
-		<td onclick="o()">上映时间</td>
-		<td>时长</td>
+		<td style="color: red;" onclick="o1()">上映时间</td>
+		<td style="color: red;" onclick="o2()">时长</td>
 		<td>类型</td>
-		<td>年代</td>
+		<td style="color: red;" onclick="o3()">年代</td>
 		<td>区域</td>
 		<td>状态</td>
 		<td>操作</td>
@@ -76,6 +120,7 @@ function plsc(){
 		<td>
 			<input type="checkbox" value="${m.mid }" name="mids">
 		</td>
+		<td>${m.mid }</td>
 		<td>${m.mname }</td>
 		<td>${m.name }</td>
 		<td>${m.price }</td>
@@ -99,10 +144,14 @@ function plsc(){
 	</tr>
 	</c:forEach>
 	<tr>
-		<td colspan="11">
-			<input type="button" value="首页" onclick="page('1')">
+		<td colspan="12">
+			<%-- <input type="button" value="首页" onclick="page('1')">
 			<input type="button" value="上一页" onclick="page('${page.prePage==0?1:page.prePage}')">
 			<input type="button" value="下一页" onclick="page('${page.nextPage==0?page.lastPage:page.nextPage}')">
+			<input type="button" value="尾页" onclick="page('${page.lastPage}')"> --%>
+			<input type="button" value="首页" onclick="page('1')">
+			<input type="button" value="上一页" onclick="page('${page.pageNum-1}')">
+			<input type="button" value="下一页" onclick="page('${page.pageNum+1}')">
 			<input type="button" value="尾页" onclick="page('${page.lastPage}')">
 			当前第${page.pageNum }页/共${page.pages }页
 		</td>

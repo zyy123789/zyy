@@ -25,7 +25,9 @@ public class MovieController {
 	
 	@RequestMapping("list.do")
 	public String getList(Model model, @RequestParam(defaultValue="1")int cpage
-//			, @RequestParam(defaultValue="desc")String oo
+			, @RequestParam(defaultValue="asc")String o1
+			, @RequestParam(defaultValue="asc")String o2
+			, @RequestParam(defaultValue="asc")String o3
 			, @RequestParam(defaultValue="")String mname
 			, @RequestParam(defaultValue="")String name
 			, @RequestParam(defaultValue="")String t1
@@ -41,7 +43,9 @@ public class MovieController {
 		map.put("p1", p1);
 		map.put("p2", p2);
 		map.put("year", year);
-//		map.put("oo", oo);
+		map.put("o1", o1);
+		map.put("o2", o2);
+		map.put("o3", o3);
 		//开启分页
 		PageHelper.startPage(cpage, 3);
 		//查询
